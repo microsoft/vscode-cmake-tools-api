@@ -53,6 +53,10 @@ export interface CMakeToolsApi {
      * @param path The file or folder to get the project for.
      */
     getProject(path: vscode.Uri): Promise<Project | undefined>;
+    /**
+     * Gets the active workspace folder.
+     */
+    getActiveFolderPath(): string;
 }
 export declare enum UIElement {
     StatusBarLaunchButton = 0,
