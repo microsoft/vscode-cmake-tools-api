@@ -10,8 +10,9 @@ import * as vscode from 'vscode';
  * API version information.
  */
 export enum Version {
-    v1 = 1,         // 1.x.x
-    latest = v1,
+    v1 = 1,         // 1.0.x
+    v1_1 = 1.1,     // 1.1.x
+    latest = v1_1,
 }
 
 /**

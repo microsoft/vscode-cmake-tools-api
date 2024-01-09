@@ -21,7 +21,8 @@ const vscode = require("vscode");
 var Version;
 (function (Version) {
     Version[Version["v1"] = 1] = "v1";
-    Version[Version["latest"] = 1] = "latest";
+    Version[Version["v1_1"] = 1.1] = "v1_1";
+    Version[Version["latest"] = 1.1] = "latest";
 })(Version = exports.Version || (exports.Version = {}));
 var UIElement;
 (function (UIElement) {

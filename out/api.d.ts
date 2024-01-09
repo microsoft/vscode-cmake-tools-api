@@ -4,7 +4,8 @@ import * as vscode from 'vscode';
  */
 export declare enum Version {
     v1 = 1,
-    latest = 1
+    v1_1 = 1.1,
+    latest = 1.1
 }
 /**
  * The interface provided by the CMake Tools extension during activation.
