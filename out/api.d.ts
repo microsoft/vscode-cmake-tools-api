@@ -4,7 +4,8 @@ import * as vscode from 'vscode';
  */
 export declare enum Version {
     v1 = 1,
-    latest = 1
+    v1_1 = 1.1,
+    latest = 1.1
 }
 /**
  * The interface provided by the CMake Tools extension during activation.
@@ -53,6 +54,10 @@ export interface CMakeToolsApi {
      * @param path The file or folder to get the project for.
      */
     getProject(path: vscode.Uri): Promise<Project | undefined>;
+    /**
+     * Gets the active workspace folder.
+     */
+    getActiveFolderPath(): string;
 }
 export declare enum UIElement {
     StatusBarLaunchButton = 0,
