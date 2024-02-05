@@ -54,7 +54,8 @@ extends:
           outputs:
           - output: pipelineArtifact
             displayName: 'Publish Artifact: SBOM'
-            targetPath: $(Build.SourcesDirectory)/_manifest
+            targetPath: $(Build.ArtifactStagingDirectory)
+            sbomBuildDropPath: $(Build.SourcesDirectory) 
             artifactName: SBOM
         steps:
         - checkout: self
