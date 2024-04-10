@@ -5,7 +5,8 @@ import * as vscode from 'vscode';
 export declare enum Version {
     v1 = 1,
     v2 = 2,
-    latest = 2
+    v3 = 3,
+    latest = 3
 }
 /**
  * The interface provided by the CMake Tools extension during activation.
@@ -72,6 +73,10 @@ export interface Project {
      * An event that fires when the code model for this project is updated.
      */
     readonly onCodeModelChanged: vscode.Event<void>;
+    /**
+     * An event that fires when the selected kit changes.
+     */
+    readonly onSelectedKitChanged: vscode.Event<void>;
     /**
      * Configures the project.
      */
