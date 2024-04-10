@@ -93,6 +93,11 @@ export interface Project {
     readonly onCodeModelChanged: vscode.Event<void>;
 
     /**
+     * An event that fires when the selected kit changes.
+     */
+    readonly onSelectedKitChanged: vscode.Event<void>;
+
+    /**
      * Configures the project.
      */
     configure(): Promise<void>;
