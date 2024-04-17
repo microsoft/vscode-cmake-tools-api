@@ -13,7 +13,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getCMakeToolsApi = exports.UIElement = exports.Version = void 0;
+exports.getCMakeToolsApi = exports.ConfigurationType = exports.UIElement = exports.Version = void 0;
 const vscode = require("vscode");
 /**
  * API version information.
@@ -30,6 +30,12 @@ var UIElement;
     UIElement[UIElement["StatusBarLaunchButton"] = 0] = "StatusBarLaunchButton";
     UIElement[UIElement["StatusBarDebugButton"] = 1] = "StatusBarDebugButton";
 })(UIElement = exports.UIElement || (exports.UIElement = {}));
+var ConfigurationType;
+(function (ConfigurationType) {
+    ConfigurationType[ConfigurationType["Kit"] = 0] = "Kit";
+    ConfigurationType[ConfigurationType["ConfigurePreset"] = 1] = "ConfigurePreset";
+    ConfigurationType[ConfigurationType["BuildPreset"] = 2] = "BuildPreset";
+})(ConfigurationType = exports.ConfigurationType || (exports.ConfigurationType = {}));
 /**
  * Helper function to get the CMakeToolsApi from the CMake Tools extension.
  * @param desiredVersion The desired API version.

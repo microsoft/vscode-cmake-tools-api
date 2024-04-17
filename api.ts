@@ -82,6 +82,12 @@ export enum UIElement {
     StatusBarDebugButton,
 }
 
+export enum ConfigurationType {
+    Kit,
+    ConfigurePreset,
+    BuildPreset
+}
+
 export interface Project {
     /**
      * Gets the code model for this project if it is available.
@@ -94,9 +100,10 @@ export interface Project {
     readonly onCodeModelChanged: vscode.Event<void>;
 
     /**
-     * An event that fires when the selected kit changes.
+     * An event that fires when the selected configuration changes.
+     * This applies to Kits or Presets. 
      */
-    readonly onSelectedKitChanged: vscode.Event<void>;
+    readonly onSelectedConfigurationChanged: vscode.Event<ConfigurationType>;
 
     /**
      * Configures the project.
