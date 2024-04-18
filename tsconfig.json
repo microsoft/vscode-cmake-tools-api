@@ -5,7 +5,9 @@
         "noImplicitAny": false,
         "sourceMap": false,
         "outDir": "out",
-        "declaration": true
+        "declaration": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true
     },
     "exclude": [
         "node_modules",

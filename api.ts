@@ -12,7 +12,8 @@ import * as vscode from 'vscode';
 export enum Version {
     v1 = 1,         // 1.x.x
     v2 = 2,         // 2.x.x
-    latest = v2,
+    v3 = 3,         // 3.x.x
+    latest = v3,
 }
 
 /**
@@ -81,6 +82,12 @@ export enum UIElement {
     StatusBarDebugButton,
 }
 
+export enum ConfigurationType {
+    Kit,
+    ConfigurePreset,
+    BuildPreset
+}
+
 export interface Project {
     /**
      * Gets the code model for this project if it is available.
@@ -91,6 +98,12 @@ export interface Project {
      * An event that fires when the code model for this project is updated.
      */
     readonly onCodeModelChanged: vscode.Event<void>;
+
+    /**
+     * An event that fires when the selected configuration changes.
+     * This applies to Kits or Presets.
+     */
+    readonly onSelectedConfigurationChanged: vscode.Event<ConfigurationType>;
 
     /**
      * Configures the project.

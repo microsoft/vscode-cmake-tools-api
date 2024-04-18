@@ -5,7 +5,8 @@ import * as vscode from 'vscode';
 export declare enum Version {
     v1 = 1,
     v2 = 2,
-    latest = 2
+    v3 = 3,
+    latest = 3
 }
 /**
  * The interface provided by the CMake Tools extension during activation.
@@ -63,6 +64,11 @@ export declare enum UIElement {
     StatusBarLaunchButton = 0,
     StatusBarDebugButton = 1
 }
+export declare enum ConfigurationType {
+    Kit = 0,
+    ConfigurePreset = 1,
+    BuildPreset = 2
+}
 export interface Project {
     /**
      * Gets the code model for this project if it is available.
@@ -72,6 +78,11 @@ export interface Project {
      * An event that fires when the code model for this project is updated.
      */
     readonly onCodeModelChanged: vscode.Event<void>;
+    /**
+     * An event that fires when the selected configuration changes.
+     * This applies to Kits or Presets.
+     */
+    readonly onSelectedConfigurationChanged: vscode.Event<ConfigurationType>;
     /**
      * Configures the project.
      */
