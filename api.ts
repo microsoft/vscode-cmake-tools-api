@@ -101,7 +101,7 @@ export interface Project {
 
     /**
      * An event that fires when the selected configuration changes.
-     * This applies to Kits or Presets. 
+     * This applies to Kits or Presets.
      */
     readonly onSelectedConfigurationChanged: vscode.Event<ConfigurationType>;
 
