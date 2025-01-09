@@ -1,0 +1,44 @@
+{
+	"name": "cmake-tools-api-sample-extension",
+	"displayName": "cmake-tools-api-sample-extension",
+	"description": "Sample extension that integrates with the CMake Tools API",
+	"version": "0.0.1",
+	"publisher": "ms-vscode",
+	"repository": "<TODO>",
+	"engines": {
+		"vscode": "^1.74.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"workspaceContains:**/CMakeLists.txt"
+	],
+	"main": "./dist/extension.js",
+	"contributes": {},
+	"extensionDependencies": [
+		"ms-vscode.cmake-tools"
+	],
+	"scripts": {
+		"vscode:prepublish": "webpack --mode production",
+		"webpack": "webpack --mode development",
+		"webpack-dev": "webpack --mode development --watch",
+		"test-compile": "tsc -p ./",
+		"lint": "eslint"
+	},
+	"dependencies": {
+		"vscode-cmake-tools": "^1.2.0"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.13.0",
+		"@stylistic/eslint-plugin": "^2.9.0",
+		"@types/node": "^20",
+		"@types/vscode": "^1.73.0",
+		"eslint": "^9.13.0",
+		"ts-loader": "^9.5.1",
+		"typescript": "^5.7.2",
+		"typescript-eslint": "^8.16.0",
+		"webpack": "^5.75.0",
+		"webpack-cli": "^5.0.1"
+	}
+}

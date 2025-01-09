@@ -1,0 +1,10 @@
+.vscode
+node_modules
+src/**
+package-lock.json
+tsconfig.json
+webpack.config.js
+out
+eslint.config.mjs
+**/*.map
+.gitignore
