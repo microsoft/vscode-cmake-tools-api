@@ -1,0 +1,4 @@
+**/package-lock.json
+node_modules
+*.map
+sample-extension/dist
