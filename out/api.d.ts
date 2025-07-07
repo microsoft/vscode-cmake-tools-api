@@ -6,7 +6,8 @@ export declare enum Version {
     v1 = 1,
     v2 = 2,
     v3 = 3,
-    latest = 3
+    v4 = 4,
+    latest = 4
 }
 /**
  * The interface provided by the CMake Tools extension during activation.
@@ -69,6 +70,20 @@ export declare enum ConfigurationType {
     ConfigurePreset = 1,
     BuildPreset = 2
 }
+export interface CommandResult {
+    /**
+     * The exit code of the command.
+     */
+    result: number;
+    /**
+     * The standard output of the command.
+     */
+    stdout?: string;
+    /**
+     * The standard error output of the command.
+     */
+    stderr?: string;
+}
 export interface Project {
     /**
      * Gets the code model for this project if it is available.
@@ -88,22 +103,55 @@ export interface Project {
      */
     configure(): Promise<void>;
     /**
+     * Configures the project and returns the result of the command.
+     */
+    configureWithResult(): Promise<CommandResult>;
+    /**
      * Builds the given targets or the active build target if none are given.
+     * @param targets The targets to build. If not provided, the active build target is used.
      */
     build(targets?: string[]): Promise<void>;
+    /**
+     * Builds the given targets or the active build target if none are given,
+     * @param targets The targets to build. If not provided, the active build target is used.
+     * @returns A promise that resolves to the command result.
+     */
+    buildWithResult(targets?: string[]): Promise<CommandResult>;
+    /**
+     * Executes the tests for the project.
+     * @param tests The tests to run. If not provided, all tests are run.
+     * @returns A promise that resolves to the command result.
+     */
+    ctestWithResult(tests?: string[]): Promise<CommandResult>;
     /**
      * Installs the project.
      */
     install(): Promise<void>;
     /**
+     * Installs the project and returns the result of the command.
+     * @returns A promise that resolves to the command result.
+     */
+    installWithResult(): Promise<CommandResult>;
+    /**
      * Cleans the build output from the project.
      */
     clean(): Promise<void>;
+    /**
+     * Cleans the build output from the project and returns the result of the command.
+     * @returns A promise that resolves to the command result.
+     */
+    cleanWithResult(): Promise<CommandResult>;
     /**
      * Removes the CMake cache file and any intermediate configuration files,
      * then configures the project.
      */
     reconfigure(): Promise<void>;
+    /**
+     * Removes the CMake cache file and any intermediate configuration files,
+     * then configures the project and returns the result of the command.
+     * @returns A promise that resolves to the command result.
+     */
+    reconfigureWithResult(): Promise<CommandResult>;
     /**
      * Gets the directory where build output is placed, if it is defined.
      */
@@ -112,6 +160,14 @@ export interface Project {
      * Gets the type of build for the currently selected configuration.
      */
     getActiveBuildType(): Promise<string | undefined>;
+    /**
+     * Gets all of the build targets for the project.
+     */
+    listBuildTargets(): Promise<string[] | undefined>;
+    /**
+     * Gets all the tests for the project.
+     */
+    listTests(): Promise<string[] | undefined>;
 }
 export declare namespace CodeModel {
     type TargetType = 'STATIC_LIBRARY' | 'MODULE_LIBRARY' | 'SHARED_LIBRARY' | 'OBJECT_LIBRARY' | 'EXECUTABLE' | 'UTILITY' | 'INTERFACE_LIBRARY';
