@@ -131,7 +131,7 @@ export interface Project {
     /**
      * Configures the project and returns the result of the command.
      */
-    configureWithResult(): Promise<CommandResult>;
+    configureWithResult(cancellationToken?: vscode.CancellationToken): Promise<CommandResult>;
 
     /**
      * Builds the given targets or the active build target if none are given.
@@ -144,14 +144,14 @@ export interface Project {
      * @param targets The targets to build. If not provided, the active build target is used.
      * @returns A promise that resolves to the command result.
      */
-    buildWithResult(targets?: string[]): Promise<CommandResult>;
+    buildWithResult(targets?: string[], cancellationToken?: vscode.CancellationToken): Promise<CommandResult>;
 
     /**
      * Executes the tests for the project.
      * @param tests The tests to run. If not provided, all tests are run.
      * @returns A promise that resolves to the command result.
      */
-    ctestWithResult(tests?: string[]): Promise<CommandResult>;
+    ctestWithResult(tests?: string[], cancellationToken?: vscode.CancellationToken): Promise<CommandResult>;
 
     /**
      * Installs the project.
@@ -162,7 +162,7 @@ export interface Project {
      * Installs the project and returns the result of the command.
      * @returns A promise that resolves to the command result.
      */
-    installWithResult(): Promise<CommandResult>;
+    installWithResult(cancellationToken?: vscode.CancellationToken): Promise<CommandResult>;
 
     /**
      * Cleans the build output from the project.
@@ -173,7 +173,7 @@ export interface Project {
      * Cleans the build output from the project and returns the result of the command.
      * @returns A promise that resolves to the command result.
      */
-    cleanWithResult(): Promise<CommandResult>;
+    cleanWithResult(cancellationToken?: vscode.CancellationToken): Promise<CommandResult>;
 
     /**
      * Removes the CMake cache file and any intermediate configuration files,
@@ -186,7 +186,7 @@ export interface Project {
      * then configures the project and returns the result of the command.
      * @returns A promise that resolves to the command result.
      */
-    reconfigureWithResult(): Promise<CommandResult>;
+    reconfigureWithResult(cancellationToken?: vscode.CancellationToken): Promise<CommandResult>;
 
     /**
      * Gets the directory where build output is placed, if it is defined.
