@@ -77,7 +77,7 @@ export interface CommandResult {
     /**
      * The exit code of the command.
      */
-    result: number;
+    exitCode: number;
     /**
      * The standard output of the command.
      */
