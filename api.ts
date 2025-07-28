@@ -13,7 +13,8 @@ export enum Version {
     v1 = 1,         // 1.x.x
     v2 = 2,         // 2.x.x
     v3 = 3,         // 3.x.x
-    latest = v3,
+    v4 = 4,         // 4.x.x
+    latest = v4,
 }
 
 /**
@@ -25,6 +26,7 @@ export interface CMakeToolsExtensionExports {
     /**
      * Get an API object.
      * @param version The desired API version.
+     * @returns The CMake Tools API object for the specified version.
      */
     getApi(version: Version): CMakeToolsApi;
 }
@@ -68,11 +70,13 @@ export interface CMakeToolsApi {
     /**
      * Gets the project associated with the given file or folder, if it exists.
      * @param path The file or folder to get the project for.
+     * @returns A promise that resolves to the project if it exists, or undefined otherwise.
      */
     getProject(path: vscode.Uri): Promise<Project | undefined>;
 
     /**
      * Gets the active workspace folder.
+     * @returns The path to the active workspace folder.
      */
     getActiveFolderPath(): string;
 }
@@ -86,6 +90,23 @@ export enum ConfigurationType {
     Kit,
     ConfigurePreset,
     BuildPreset
+}
+
+export interface CommandResult {
+    /**
+     * The exit code of the command.
+     */
+    exitCode: number;
+
+    /**
+     * The standard output of the command.
+     */
+    stdout?: string;
+
+    /**
+     * The standard error output of the command.
+     */
+    stderr?: string;
 }
 
 export interface Project {
@@ -111,9 +132,33 @@ export interface Project {
     configure(): Promise<void>;
 
     /**
+     * Configures the project and returns the result of the command.
+     * @param cancellationToken Optional cancellation token to cancel the operation.
+     * @returns A promise that resolves to the command result.
+     */
+    configureWithResult(cancellationToken?: vscode.CancellationToken): Promise<CommandResult>;
+
+    /**
      * Builds the given targets or the active build target if none are given.
+     * @param targets The targets to build. If not provided, the active build target is used.
      */
     build(targets?: string[]): Promise<void>;
+
+    /**
+     * Builds the given targets or the active build target if none are given,
+     * @param targets The targets to build. If not provided, the active build target is used.
+     * @param cancellationToken Optional cancellation token to cancel the operation.
+     * @returns A promise that resolves to the command result.
+     */
+    buildWithResult(targets?: string[], cancellationToken?: vscode.CancellationToken): Promise<CommandResult>;
+
+    /**
+     * Executes the tests for the project.
+     * @param tests The tests to run. If not provided, all tests are run.
+     * @param cancellationToken Optional cancellation token to cancel the operation.
+     * @returns A promise that resolves to the command result.
+     */
+    ctestWithResult(tests?: string[], cancellationToken?: vscode.CancellationToken): Promise<CommandResult>;
 
     /**
      * Installs the project.
@@ -121,9 +166,23 @@ export interface Project {
     install(): Promise<void>;
 
     /**
+     * Installs the project and returns the result of the command.
+     * @param cancellationToken Optional cancellation token to cancel the operation.
+     * @returns A promise that resolves to the command result.
+     */
+    installWithResult(cancellationToken?: vscode.CancellationToken): Promise<CommandResult>;
+
+    /**
      * Cleans the build output from the project.
      */
     clean(): Promise<void>;
+
+    /**
+     * Cleans the build output from the project and returns the result of the command.
+     * @param cancellationToken Optional cancellation token to cancel the operation.
+     * @returns A promise that resolves to the command result.
+     */
+    cleanWithResult(cancellationToken?: vscode.CancellationToken): Promise<CommandResult>;
 
     /**
      * Removes the CMake cache file and any intermediate configuration files,
@@ -132,14 +191,36 @@ export interface Project {
     reconfigure(): Promise<void>;
 
     /**
+     * Removes the CMake cache file and any intermediate configuration files,
+     * then configures the project and returns the result of the command.
+     * @param cancellationToken Optional cancellation token to cancel the operation.
+     * @returns A promise that resolves to the command result.
+     */
+    reconfigureWithResult(cancellationToken?: vscode.CancellationToken): Promise<CommandResult>;
+
+    /**
      * Gets the directory where build output is placed, if it is defined.
+     * @returns A promise that resolves to the build directory path, or undefined if not defined.
      */
     getBuildDirectory(): Promise<string | undefined>;
 
     /**
      * Gets the type of build for the currently selected configuration.
+     * @returns A promise that resolves to the active build type, or undefined if not available.
      */
     getActiveBuildType(): Promise<string | undefined>;
+
+    /**
+     * Gets all of the build targets for the project.
+     * @returns A promise that resolves to an array of build target names, or undefined if not available.
+     */
+    listBuildTargets(): Promise<string[] | undefined>;
+
+    /**
+     * Gets all the tests for the project.
+     * @returns A promise that resolves to an array of test names, or undefined if not available.
+     */
+    listTests(): Promise<string[] | undefined>;
 }
 
 export namespace CodeModel {
