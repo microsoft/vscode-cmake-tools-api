@@ -7,7 +7,8 @@ export declare enum Version {
     v2 = 2,
     v3 = 3,
     v4 = 4,
-    latest = 4
+    v5 = 5,
+    latest = 5
 }
 /**
  * The interface provided by the CMake Tools extension during activation.
@@ -73,6 +74,179 @@ export declare enum ConfigurationType {
     ConfigurePreset = 1,
     BuildPreset = 2
 }
+export type EnvironmentWithNull = Record<string, string | undefined | null>;
+export interface Condition {
+    type: 'const' | 'equals' | 'notEquals' | 'inList' | 'notInList' | 'matches' | 'notMatches' | 'anyOf' | 'allOf' | 'not';
+    value?: boolean;
+    lhs?: string;
+    rhs?: string;
+    string?: string;
+    list?: string[];
+    regex?: string;
+    conditions?: Condition[];
+    condition?: Condition;
+}
+export type VendorType = {
+    [key: string]: any;
+};
+export interface Preset {
+    name: string;
+    displayName?: string;
+    description?: string;
+    hidden?: boolean;
+    inherits?: string | string[];
+    environment?: EnvironmentWithNull;
+    vendor?: VendorType;
+    condition?: Condition | boolean | null;
+    isUserPreset?: boolean;
+}
+export interface InheritsConfigurePreset extends Preset {
+    configurePreset?: string;
+    inheritConfigureEnvironment?: boolean;
+}
+export interface TraceOptions {
+    mode?: string;
+    format?: string;
+    source?: string[];
+    redirect: string;
+}
+export interface ValueStrategy {
+    value?: string;
+    strategy?: 'set' | 'external';
+}
+export type CacheVarType = null | boolean | string | {
+    type: string;
+    value: boolean | string;
+};
+export interface ErrorOptions {
+    dev?: boolean;
+    deprecated?: boolean;
+}
+export interface WarningOptions {
+    dev?: boolean;
+    deprecated?: boolean;
+    uninitialized?: boolean;
+    unusedCli?: boolean;
+    systemVars?: boolean;
+}
+export interface DebugOptions {
+    output?: boolean;
+    tryCompile?: boolean;
+    find?: boolean;
+}
+export type VendorVsSettings = {
+    'microsoft.com/VisualStudioSettings/CMake/1.0': {
+        hostOS: OsName | OsName[];
+        [key: string]: any;
+    };
+    [key: string]: any;
+};
+export type OsName = "Windows" | "Linux" | "macOS";
+export interface ConfigurePreset extends Preset {
+    generator?: string;
+    architecture?: string | ValueStrategy;
+    toolset?: string | ValueStrategy;
+    binaryDir?: string;
+    cmakeExecutable?: string;
+    cacheVariables?: {
+        [key: string]: CacheVarType | undefined;
+    };
+    warnings?: WarningOptions;
+    errors?: ErrorOptions;
+    debug?: DebugOptions;
+    trace?: TraceOptions;
+    vendor?: VendorVsSettings | VendorType;
+    toolchainFile?: string;
+    installDir?: string;
+    graphviz?: string;
+}
+export interface BuildPreset extends InheritsConfigurePreset {
+    jobs?: number;
+    targets?: string | string[];
+    configuration?: string;
+    cleanFirst?: boolean;
+    verbose?: boolean;
+    nativeToolOptions?: string[];
+}
+export interface OutputOptions {
+    shortProgress?: boolean;
+    verbosity?: 'default' | 'verbose' | 'extra';
+    debug?: boolean;
+    outputOnFailure?: boolean;
+    quiet?: boolean;
+    outputLogFile?: string;
+    outputJUnitFile?: string;
+    labelSummary?: boolean;
+    subprojectSummary?: boolean;
+    maxPassedTestOutputSize?: number;
+    maxFailedTestOutputSize?: number;
+    testOutputTruncation?: 'tail' | 'heads' | 'middle';
+    maxTestNameWidth?: number;
+}
+export interface IncludeFilter {
+    name?: string;
+    label?: string;
+    useUnion?: boolean;
+    index?: string | {
+        start?: number;
+        end?: number;
+        stride?: number;
+        specificTests?: number[];
+    };
+}
+export interface ExcludeFilter {
+    name?: string;
+    label?: string;
+    fixtures?: {
+        any?: string;
+        setup?: string;
+        cleanup?: string;
+    };
+}
+export interface TestFilter {
+    include?: IncludeFilter;
+    exclude?: ExcludeFilter;
+}
+export interface ExecutionOptions {
+    stopOnFailure?: boolean;
+    enableFailover?: boolean;
+    jobs?: number;
+    resourceSpecFile?: string;
+    testLoad?: number;
+    showOnly?: 'human' | 'json-v1';
+    repeat?: {
+        mode: 'until-fail' | 'until-pass' | 'after-timeout';
+        count: number;
+    };
+    interactiveDebugging?: boolean;
+    scheduleRandom?: boolean;
+    timeout?: number;
+    noTestsAction?: 'default' | 'error' | 'ignore';
+}
+export interface TestPreset extends InheritsConfigurePreset {
+    configuration?: string;
+    overwriteConfigurationFile?: string[];
+    output?: OutputOptions;
+    filter?: TestFilter;
+    execution?: ExecutionOptions;
+}
+export interface PackageOutputOptions {
+    debug?: boolean;
+    verbose?: boolean;
+}
+export interface PackagePreset extends InheritsConfigurePreset {
+    configurations?: string[];
+    generators?: string[];
+    variables?: {
+        [key: string]: string | null | undefined;
+    };
+    configFile?: string;
+    output?: PackageOutputOptions;
+    packageName?: string;
+    packageVersion?: string;
+    packageDirectory?: string;
+    vendorName?: string;
+}
 export interface CommandResult {
     /**
      * The exit code of the command.
@@ -92,6 +266,26 @@ export interface Project {
      * Gets the code model for this project if it is available.
      */
     readonly codeModel: CodeModel.Content | undefined;
+    /**
+     * Gets the configure preset for this project if it is available.
+     */
+    readonly configurePreset: ConfigurePreset | undefined;
+    /**
+     * Gets the build preset for this project if it is available.
+     */
+    readonly buildPreset: BuildPreset | undefined;
+    /**
+     * Gets the test preset for this project if it is available.
+     */
+    readonly testPreset: TestPreset | undefined;
+    /**
+     * Gets the package preset for this project if it is available.
+     */
+    readonly packagePreset: PackagePreset | undefined;
+    /**
+     * Gets whether this project uses CMake Presets.
+     */
+    readonly useCMakePresets: boolean;
     /**
      * An event that fires when the code model for this project is updated.
      */
