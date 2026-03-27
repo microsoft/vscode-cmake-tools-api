@@ -233,7 +233,12 @@ export interface TestFilter {
 export interface ExecutionOptions {
     stopOnFailure?: boolean;
     enableFailover?: boolean;
-    jobs?: number;
+    /**
+     * The number of parallel jobs to use when running tests, or an empty string to use
+     * the default parallelism (equivalent to --parallel with no value). An empty string
+     * is only valid in CMake Presets version 11 and later.
+     */
+    jobs?: number | string;
     resourceSpecFile?: string;
     testLoad?: number;
     showOnly?: 'human' | 'json-v1';
