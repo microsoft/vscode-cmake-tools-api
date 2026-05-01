@@ -539,6 +539,7 @@ export namespace CodeModel {
 
     export interface Toolchain {
         path: string;
+        commandFragment?: string;
         target?: string;
     }
 

@@ -463,6 +463,7 @@ export declare namespace CodeModel {
     }
     interface Toolchain {
         path: string;
+        commandFragment?: string;
         target?: string;
     }
     /** Describes the cmake model */
